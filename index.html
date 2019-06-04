@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Alternative Fuel Station Search</title>
+<meta name="description" content="Search for nearby alternative fuel stations">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="main.css">
+<script src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header>
+<h1>Search for nearby Alternative Fuel Stations</h1>
+<nav>
+    <ul>
+    <li><a href="request-form">Search Using Current Location</a></li>
+    <li><a href="results">Enter a Location to Search</a></li>
+    </ul>
+    
+    </nav>
+</header>
+<section id="request-form">
+<h2>Please enter search parameters</h2>
+
+<form>
+<label for="location">Enter the location</label>
+<input id="location" type="text">
+<label for="radius">Enter the search radius</label>
+<input id="radius" type="number">
+<label for="limit">Enter the number of results to display</label>
+<input id="limit" type="number">
+<button type="submit">Search</button>
+</form>
+</section>
+<section id="results">
+
+</section>
+
+
+</body>
+<script src="index.js"></script>
+
+</html>
