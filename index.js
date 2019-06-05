@@ -18,11 +18,15 @@ function getUserLocation(){
       }
    
     geo.getCurrentPosition(function(position) {
+        console.log("entered the getCurrentPosition function");
         handleLocation(position.coords.latitude, position.coords.longitude);
+        $('.location').append(`<p>${position.coords.latitude}</p>`);
+
       });
 }
 
 function displayList(responseJson){
+    $('.js-result-list').empty();
     console.log("in the displaylist function");
     console.log(responseJson.fuel_stations);
     for (let i=0; i<responseJson.fuel_stations.length; i++){
