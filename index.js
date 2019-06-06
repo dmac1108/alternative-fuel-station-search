@@ -3,13 +3,13 @@
 const url="https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest";
 const APIkey = "BLnD9vbttpdXhyvlXImgyUXASEkcU2bUvSpa89fw";
 
-function handleLocation(latitude, longitude){
+/*function handleLocation(latitude, longitude){
     console.log("in the handleLocation function");
     console.log("latitude: " + latitude + " longitude: " + longitude);
     const coordinates = [latitude, longitude];
     return coordinates;
 
-}
+}*/
 
 function getUserLocation(){
     console.log("In the geolocation function");
@@ -28,6 +28,21 @@ function getUserLocation(){
       });
 }
 
+function mapsSelector(latitude, longitude) {
+  let mapUrl = "";
+  if /* if we're on iOS, open in Apple Maps */
+    ((navigator.platform.indexOf("iPhone") != -1) || 
+     (navigator.platform.indexOf("iPad") != -1) || 
+     (navigator.platform.indexOf("iPod") != -1)){
+     mapUrl = `maps://maps.google.com/maps?daddr=${latitude},${longitude}&amp;ll=`;
+    }
+  else /* else use Google */{
+    mapUrl = `https://maps.google.com/maps?daddr=${latitude},${longitude}&amp;ll=`;
+    }
+    return mapUrl
+    //window.open(mapUrl);
+}
+
 function displayList(responseJson){
     $('.js-result-list').empty();
     console.log("in the displaylist function");
@@ -40,10 +55,15 @@ function displayList(responseJson){
         let accessType = responseJson.fuel_stations[i].access_code;
         let streetAddress = responseJson.fuel_stations[i].street_address;
         let city = responseJson.fuel_stations[i].city;
-        appendString = `<h2>${stationName}</h2><p>${distance}</p><p>${fuel}</p><p>${accessCode}</p><p>${accessType}</p><p>${streetAddress}</p><p>${city}</p>`;
+        let stationLatitude = responseJson.fuel_stations[i].latitude;
+        let stationLongitude = responseJson.fuel_stations[i].longitude;
+        let mapUrl = mapsSelector(stationLatitude,stationLongitude);
+        console.log(mapUrl);
+        appendString = `<h2>${stationName}</h2><p>${distance}</p><p>${fuel}</p><p>${accessCode}</p><p>${accessType}</p><p>${streetAddress}</p><p>${city}</p><a href="${mapUrl}" target="_blank">Open Map</a>`;
         $('.js-result-list').append(appendString);
 
     }
+    //displayMap();
 }
 
 function formatQueryParams(params) {
@@ -99,6 +119,7 @@ function getData(type, searchLocation, radius, limit){
         console.log(params);
         $('.location').append(`<p>${position.coords.latitude}</p>`);
         fetchRequest(params);
+        
       });
     }
 
@@ -128,6 +149,6 @@ console.log("App Started");
 WatchForm();
 $('#radius').val(5);
 $('#limit').val(20);
-//getUserLocation();
+
 
 });
