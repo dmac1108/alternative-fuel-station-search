@@ -6,6 +6,9 @@ const APIkey = "BLnD9vbttpdXhyvlXImgyUXASEkcU2bUvSpa89fw";
 function handleLocation(latitude, longitude){
     console.log("in the handleLocation function");
     console.log("latitude: " + latitude + " longitude: " + longitude);
+    const coordinates = [latitude, longitude];
+    return coordinates;
+
 }
 
 function getUserLocation(){
@@ -43,33 +46,62 @@ function displayList(responseJson){
     }
 }
 
-
 function formatQueryParams(params) {
     const queryItems = Object.keys(params)
       .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
     return queryItems.join('&');
   }
 
-
-function getData(location, radius, limit){
-    console.log("in the getData function");
-    const params = {
-        format: "json",
-        location: `${location}`,
-        radius: `${radius}`,
-        limit: `${limit}`,
-        api_key: APIkey
-    };
-
+function fetchRequest(params){
+    console.log("in the fetchRequest function");
     const queryString = formatQueryParams(params);
     let queryUrl = url + '?' + queryString;
-    console.log(queryUrl);
+    //console.log(queryUrl);
 
     fetch(queryUrl)
     .then(response => response.json())
     .then(responseJson => displayList(responseJson))
     .catch(err => console.log(err));
+}
+
+
+
+
+function getData(type, searchLocation, radius, limit){
+    console.log("in the getData function");
     
+    const params = {
+        format: "json",
+        radius: `${radius}`,
+        limit: `${limit}`,
+        api_key: APIkey
+    };
+
+    if(type === 'manual-location-search'){
+        params.location = `${searchLocation}`;
+        console.log(params);
+        fetchRequest(params);
+    }
+    else{
+        geo = navigator.geolocation;
+        if ("geolocation" in navigator) {
+        console.log("Geolocation is available");
+        } 
+        else {
+          console.log("Geolocation is NOT available");
+        }
+   
+    geo.getCurrentPosition(function(position) {
+        console.log("entered the getCurrentPosition function");
+        //handleLocation(position.coords.latitude, position.coords.longitude);
+        params.latitude = `${position.coords.latitude}`;
+        params.longitude = `${position.coords.longitude}`;
+        console.log(params);
+        $('.location').append(`<p>${position.coords.latitude}</p>`);
+        fetchRequest(params);
+      });
+    }
+
 }
 
 
@@ -77,11 +109,15 @@ function getData(location, radius, limit){
 function WatchForm(){
     console.log("In the WatchForm function");
     $('form').submit(function(){
-        //obtain the search parameters from the form
-        const location = $('#location').val();
+        //determine which search type the user chose
+        let searchLocation = "";
+        let searchType = $("input[type='radio']:checked").val();
+        if(searchType != 'geolocation-search'){
+            searchLocation = $('#location').val();
+        }
         const radius = $('#radius').val();
         const limit = $('#limit').val();
-        getData(location,radius,limit);
+        getData(searchType, searchLocation,radius,limit);
         event.preventDefault();
     });
 }
@@ -92,6 +128,6 @@ console.log("App Started");
 WatchForm();
 $('#radius').val(5);
 $('#limit').val(20);
-getUserLocation();
+//getUserLocation();
 
 });

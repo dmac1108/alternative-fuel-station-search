@@ -25,7 +25,15 @@
 <section id="request-form">
 <h2>Please enter search parameters</h2>
 
-<form>
+<form >
+  <div>
+    <input type="radio" id="geolocation-search" name="search-type" value="geolocation-search">
+    <label for="geolocation-search">Use Current Location</label>
+  </div>
+  <div>
+    <input type="radio" id="manual-location-search" name="search-type" value="manual-location-search">
+    <label for="manual-location-search">Enter Location</label>
+  </div>
   <label for="location">Enter the location</label>
   <input id="location" type="text">
   <label for="radius">Enter the search radius</label>
