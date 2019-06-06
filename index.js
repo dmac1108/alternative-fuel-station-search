@@ -40,7 +40,7 @@ function mapsSelector(latitude, longitude) {
     mapUrl = `https://maps.google.com/maps?daddr=${latitude},${longitude}&amp;ll=`;
     }
     return mapUrl
-    //window.open(mapUrl);
+    
 }
 
 function displayList(responseJson){
@@ -58,12 +58,11 @@ function displayList(responseJson){
         let stationLatitude = responseJson.fuel_stations[i].latitude;
         let stationLongitude = responseJson.fuel_stations[i].longitude;
         let mapUrl = mapsSelector(stationLatitude,stationLongitude);
-        console.log(mapUrl);
-        appendString = `<h2>${stationName}</h2><p>${distance}</p><p>${fuel}</p><p>${accessCode}</p><p>${accessType}</p><p>${streetAddress}</p><p>${city}</p><a href="${mapUrl}" target="_blank">Open Map</a>`;
+        appendString = `<h2>${stationName}</h2><ul><li>${distance}</li><li>${fuel}</li><li>${accessCode}</li><li>${accessType}</li><li>${streetAddress}</li><li>${city}</li><a href="${mapUrl}" target="_blank">Open Map</a></ul>`;
         $('.js-result-list').append(appendString);
 
     }
-    //displayMap();
+   
 }
 
 function formatQueryParams(params) {
@@ -76,16 +75,12 @@ function fetchRequest(params){
     console.log("in the fetchRequest function");
     const queryString = formatQueryParams(params);
     let queryUrl = url + '?' + queryString;
-    //console.log(queryUrl);
 
     fetch(queryUrl)
     .then(response => response.json())
     .then(responseJson => displayList(responseJson))
     .catch(err => console.log(err));
 }
-
-
-
 
 function getData(type, searchLocation, radius, limit){
     console.log("in the getData function");
@@ -99,28 +94,32 @@ function getData(type, searchLocation, radius, limit){
 
     if(type === 'manual-location-search'){
         params.location = `${searchLocation}`;
-        console.log(params);
         fetchRequest(params);
     }
     else{
         geo = navigator.geolocation;
         if ("geolocation" in navigator) {
         console.log("Geolocation is available");
+        geo.getCurrentPosition(function(position) {
+          console.log("entered the getCurrentPosition function");
+          params.latitude = `${position.coords.latitude}`;
+          params.longitude = `${position.coords.longitude}`;
+          $('.location').append(`<p>${position.coords.latitude}</p>`);
+          fetchRequest(params);
+          
+        },
+        function error(err) {
+          alert("Geolocation is not available. Please enter a location to search.");
+          console.warn(`ERROR(${err.code}): ${err.message}`);
+        });
+        
         } 
         else {
           console.log("Geolocation is NOT available");
+          alert("Geolocation is not available. Please enter a location to search.");
         }
    
-    geo.getCurrentPosition(function(position) {
-        console.log("entered the getCurrentPosition function");
-        //handleLocation(position.coords.latitude, position.coords.longitude);
-        params.latitude = `${position.coords.latitude}`;
-        params.longitude = `${position.coords.longitude}`;
-        console.log(params);
-        $('.location').append(`<p>${position.coords.latitude}</p>`);
-        fetchRequest(params);
-        
-      });
+    
     }
 
 }
