@@ -15,16 +15,10 @@
 
 <header>
 <h1>Search for nearby Alternative Fuel Stations</h1>
-<nav>
-    <ul>
-    <li><a href="request-form">Search Using Current Location</a></li>
-    <li><a href="results">Enter a Location to Search</a></li>
-    </ul>
-    
-    </nav>
+
 </header>
 <section id="request-form">
-<h2>Please enter search parameters</h2>
+
 
 <form >
   <div>
@@ -35,20 +29,18 @@
     <input type="radio" id="manual-location-search" name="search-type" value="manual-location-search">
     <label for="manual-location-search">Enter Location</label>
   </div>
-  <label for="location">Enter the location</label>
-  <input id="location" type="text">
+  <div class="js-location-input">
+    <label for="location">Enter the location</label>
+    <input id="location" type="text">
+  </div>
+  <div class="js-form-input">
   <label for="radius">Enter the search radius</label>
   <input id="radius" type="number">
   <label for="limit">Enter the number of results to display</label>
   <input id="limit" type="number">
   <button type="submit">Search</button>
+  </div>
 </form>
-</section>
-<section>
-  <div class="location"></div>
-</section>
-<section>
-  <div id="map" class="map"></div>
 </section>
 
 <section class="js-results">

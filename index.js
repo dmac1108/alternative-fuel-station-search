@@ -104,7 +104,6 @@ function getData(type, searchLocation, radius, limit){
           console.log("entered the getCurrentPosition function");
           params.latitude = `${position.coords.latitude}`;
           params.longitude = `${position.coords.longitude}`;
-          $('.location').append(`<p>${position.coords.latitude}</p>`);
           fetchRequest(params);
           
         },
@@ -142,12 +141,34 @@ function WatchForm(){
     });
 }
 
+function getFormType(){
+  $("input[type='radio']").click(function (){
+    let formType = $("input[type='radio']:checked").val();
+    console.log(formType);
+    if(formType === 'geolocation-search'){
+      $('.js-location-input').hide();
+      $('.js-form-input').show();
+    }
+    else{
+      $('.js-location-input').show();
+      $('.js-form-input').show();
+    }
+
+  });
+  WatchForm();
+}
+
+function initializeApp(){
+  $('#radius').val(5);
+  $('#limit').val(20);
+  $('.js-location-input').hide();
+  $('.js-form-input').hide();
+}
 
 $(function(){
 console.log("App Started");
-WatchForm();
-$('#radius').val(5);
-$('#limit').val(20);
+initializeApp();
 
+getFormType();
 
 });
