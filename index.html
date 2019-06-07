@@ -14,7 +14,7 @@
 <body>
 
 <header>
-<h1>Search for nearby Alternative Fuel Stations</h1>
+<h1>Search for nearby Public Alternative Fuel Stations</h1>
 
 </header>
 <section id="request-form">
@@ -36,6 +36,17 @@
   <div class="js-form-input">
   <label for="radius">Enter the search radius</label>
   <input id="radius" type="number">
+    <label for="Fuel Type">Select Fuel Type</label>
+  <select name="Fuel Type">
+    <option value="all">Include all fuel types</option>
+    <option value="BD">Biodiesel (B20 and above)</option>
+    <option value="CNG">Compressed Natural Gas</option>
+    <option value="E85">Ethanol (E85)</option>
+    <option value="ELEC">Electric</option>
+    <option value="HY">Hydrogen</option>
+    <option value="LNG">Liquefied Natural Gas</option>
+    <option value="LPG">Liquefied Petroleum Gas (Propane)</option>
+  </select>
   <label for="limit">Enter the number of results to display</label>
   <input id="limit" type="number">
   <button type="submit">Search</button>

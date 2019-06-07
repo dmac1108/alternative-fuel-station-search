@@ -1,4 +1,4 @@
-input[type="text"],input[type="number"]{
+input[type="text"],input[type="number"],select{
   display: block;
 }
 

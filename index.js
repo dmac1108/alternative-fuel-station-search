@@ -47,18 +47,61 @@ function displayList(responseJson){
     $('.js-result-list').empty();
     console.log("in the displaylist function");
     console.log(responseJson.fuel_stations);
+    if(responseJson.fuel_stations.length === 0){
+      alert("There are no nearby stations that match your search criteraia. Please try your search again.")
+    }
     for (let i=0; i<responseJson.fuel_stations.length; i++){
         let stationName = responseJson.fuel_stations[i].station_name;
-        let distance = responseJson.fuel_stations[i].distance;
-        let fuel = responseJson.fuel_stations[i].fuel_type_code;
+        let distance = responseJson.fuel_stations[i].distance.toFixed(2);
+        //let fuel = responseJson.fuel_stations[i].fuel_type_code;
         let accessCode = responseJson.fuel_stations[i].access_days_time;
         let accessType = responseJson.fuel_stations[i].access_code;
         let streetAddress = responseJson.fuel_stations[i].street_address;
         let city = responseJson.fuel_stations[i].city;
+        let state = responseJson.fuel_stations[i].state;
+        let postalcode = responseJson.fuel_stations[i].zip;
+        let phone = responseJson.fuel_stations[i].station_phone;
         let stationLatitude = responseJson.fuel_stations[i].latitude;
         let stationLongitude = responseJson.fuel_stations[i].longitude;
         let mapUrl = mapsSelector(stationLatitude,stationLongitude);
-        appendString = `<h2>${stationName}</h2><ul><li>${distance}</li><li>${fuel}</li><li>${accessCode}</li><li>${accessType}</li><li>${streetAddress}</li><li>${city}</li><a href="${mapUrl}" target="_blank">Open Map</a></ul>`;
+
+        let fuel = "";
+        switch (responseJson.fuel_stations[i].fuel_type_code){
+          case "all": 
+          fuel = "All";
+          break;
+          case "BD":
+            fuel = "Biodiesel (B20 and above)";
+            break;
+          case "CNG":
+            fuel = "Compressed Natural Gas";
+            break;
+          case "E85":
+            fuel = "Ethanol (E85)";
+            break;
+          case "ELEC":
+            fuel = "Electric";
+            break;
+          case "HY":
+            fuel = "Hydrogen";
+            break;
+          case "LNG":
+            fuel = "Liquefied Natural Gas";
+            break;
+          case "LPG":
+            fuel = "Liquefied Petroleum";
+            break;
+        }
+
+
+        appendString = `<h2>${stationName}</h2>
+        <ul><li>Distance from Location: ${distance} miles</li>
+        <li>Fuel Type: ${fuel}</li>
+        <li>Hours: ${accessCode}</li>
+        <li>Address: ${streetAddress}</li>
+        <li>${city}, ${state} ${postalcode}</li>
+        <li>Phone: ${phone}</li>
+        <a href="${mapUrl}" target="_blank">Open Map</a></ul>`;
         $('.js-result-list').append(appendString);
 
     }
@@ -82,13 +125,16 @@ function fetchRequest(params){
     .catch(err => console.log(err));
 }
 
-function getData(type, searchLocation, radius, limit){
+function getData(type, searchLocation, radius, limit, fuelType){
     console.log("in the getData function");
     
     const params = {
         format: "json",
+        access: "public",
         radius: `${radius}`,
         limit: `${limit}`,
+        fuel_type: `${fuelType}`,
+        status: "E",
         api_key: APIkey
     };
 
@@ -136,7 +182,8 @@ function WatchForm(){
         }
         const radius = $('#radius').val();
         const limit = $('#limit').val();
-        getData(searchType, searchLocation,radius,limit);
+        const fuelType = $('select').val();
+        getData(searchType, searchLocation,radius,limit,fuelType);
         event.preventDefault();
     });
 }
