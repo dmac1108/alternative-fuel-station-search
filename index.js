@@ -3,13 +3,14 @@
 const url="https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest";
 const APIkey = "BLnD9vbttpdXhyvlXImgyUXASEkcU2bUvSpa89fw";
 
-/*function handleLocation(latitude, longitude){
-    console.log("in the handleLocation function");
-    console.log("latitude: " + latitude + " longitude: " + longitude);
-    const coordinates = [latitude, longitude];
-    return coordinates;
-
-}*/
+/*$('.js-result-list').on('click', 'a', function(e){
+  console.log("ellipsis toggled");
+  console.log($(this));
+  //let sib = $('this').nextElementSibling();
+  //console.log(sib);
+  $('span').removeClass('hide-hours');
+  e.preventDefault(); 
+});*/
 
 function getUserLocation(){
     console.log("In the geolocation function");
@@ -27,6 +28,18 @@ function getUserLocation(){
 
       });
 }
+/*
+$('.scroll_to').click(function(e){
+  console.log("in the scroll to function");
+  var jump = $(this).attr('href');
+  var jump = "#display-results";
+  var new_position = $(jump).offset();
+  console.log(new_position);
+  $('html,body').stop().animate({scrollTop: new_position.top},500);
+  console.log($('#display-results').scrollTop());
+  e.preventDefault();
+});
+*/
 
 function mapsSelector(latitude, longitude) {
   let mapUrl = "";
@@ -53,7 +66,6 @@ function displayList(responseJson){
     for (let i=0; i<responseJson.fuel_stations.length; i++){
         let stationName = responseJson.fuel_stations[i].station_name;
         let distance = responseJson.fuel_stations[i].distance.toFixed(2);
-        //let fuel = responseJson.fuel_stations[i].fuel_type_code;
         let accessCode = responseJson.fuel_stations[i].access_days_time;
         let accessType = responseJson.fuel_stations[i].access_code;
         let streetAddress = responseJson.fuel_stations[i].street_address;
@@ -94,15 +106,18 @@ function displayList(responseJson){
         }
 
 
-        appendString = `<h2>${stationName}</h2>
-        <ul><li>Distance from Location: ${distance} miles</li>
+        appendString = `<h2><a href="${mapUrl}" target="_blank"><img src="./assets/map-vector-free-icon-set-34.png" alt="map icon"></a> ${stationName}</h2>
+        <h3><a href="${mapUrl}" target="_blank">${streetAddress} ${city}, ${state} ${postalcode}</a> (${distance} miles)</h3>
+        <ul>
         <li>Fuel Type: ${fuel}</li>
-        <li>Hours: ${accessCode}</li>
-        <li>Address: ${streetAddress}</li>
-        <li>${city}, ${state} ${postalcode}</li>
-        <li>Phone: ${phone}</li>
-        <a href="${mapUrl}" target="_blank">Open Map</a></ul>`;
-        $('.js-result-list').append(appendString);
+        <li>Phone: <a href="tel:${phone}">${phone}</a></li>
+        <li>Hours: </br>` ;
+        
+        hoursString = accessCode.length <= 30 ?  `${accessCode}</li></ul>` : 
+        accessCode.substring(0,30) + "<a class='ellipsis' href='#'>...</a><span id='" + i + "'class='hide-hours'>" + accessCode.substring(31,accessCode.length) + "</span></li></ul>";
+        console.log(hoursString);
+
+        $('.js-result-list').append(appendString + hoursString);
 
     }
    

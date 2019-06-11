@@ -1,14 +1,77 @@
-input[type="text"],input[type="number"],select{
-  display: block;
+body{
+  
+  /*font-family: 'Contrail One', cursive;*/
+  font-family: 'Krona One', sans-serif;
+  font-size: 20px;
+  box-sizing: border-box;
+  background-color:#C4DDF5;
 }
+
+
+
+button{
+  font-size: 20px;
+  padding: 10px;
+  color: #FCE505;
+  background-color: #03417B;
+}
+
+input[type="text"],input[type="number"],select, label{
+  margin: 20px;
+  font-size: 20px;
+  
+}
+
 
 ul{
   list-style: none;
 }
 
-.request-form{
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-  align-items: center;
+li{
+  padding: 5px;
+}
+
+
+.radio-buttons{
+  align-self: center;
+}
+
+.radius, .fuel-type, .limit{
+  display: block;
+}
+
+.hide-hours{
+  display: none;
+}
+
+@media screen and (max-width: 320px){
+
+body{
+  font-size: 14px;
+}
+
+  input[type="text"],input[type="number"],select, label{
+    font-size: 18px;
+    margin-left: 5px;
+  }
+
+  .js-form-input{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    flex: 1 1;
+  }
+}
+
+@media screen and (min-width: 1094px){
+
+  .js-form-input{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    flex: 1 1;
+  }
+
 }
