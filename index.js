@@ -3,14 +3,14 @@
 const url="https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest";
 const APIkey = "BLnD9vbttpdXhyvlXImgyUXASEkcU2bUvSpa89fw";
 
-/*$('.js-result-list').on('click', 'a', function(e){
+$('.js-result-list').on('click', '.ellipsis', function(e){
   console.log("ellipsis toggled");
   console.log($(this));
-  //let sib = $('this').nextElementSibling();
-  //console.log(sib);
-  $('span').removeClass('hide-hours');
-  e.preventDefault(); 
-});*/
+        $(this).toggleClass("hide-hours");
+        $(this).closest($("li")).find("p.mini-hours").toggleClass("hide-hours");
+        $(this).closest($("li")).find("span.extra-hours").toggleClass("hide-hours");
+        
+});
 
 function getUserLocation(){
     console.log("In the geolocation function");
@@ -28,18 +28,7 @@ function getUserLocation(){
 
       });
 }
-/*
-$('.scroll_to').click(function(e){
-  console.log("in the scroll to function");
-  var jump = $(this).attr('href');
-  var jump = "#display-results";
-  var new_position = $(jump).offset();
-  console.log(new_position);
-  $('html,body').stop().animate({scrollTop: new_position.top},500);
-  console.log($('#display-results').scrollTop());
-  e.preventDefault();
-});
-*/
+
 
 function mapsSelector(latitude, longitude) {
   let mapUrl = "";
@@ -58,10 +47,15 @@ function mapsSelector(latitude, longitude) {
 
 function displayList(responseJson){
     $('.js-result-list').empty();
+    
     console.log("in the displaylist function");
     console.log(responseJson.fuel_stations);
+    /*$('.js-result-list').scrollTop(300);*/
+    /*let new_position = 600;
+    $('html,body').stop().animate({scrollTop: new_position.top},500);*/
+
     if(responseJson.fuel_stations.length === 0){
-      alert("There are no nearby stations that match your search criteraia. Please try your search again.")
+      alert("There are no nearby stations that match your search criteria. Please try your search again.")
     }
     for (let i=0; i<responseJson.fuel_stations.length; i++){
         let stationName = responseJson.fuel_stations[i].station_name;
@@ -113,8 +107,8 @@ function displayList(responseJson){
         <li>Phone: <a href="tel:${phone}">${phone}</a></li>
         <li>Hours: </br>` ;
         
-        hoursString = accessCode.length <= 30 ?  `${accessCode}</li></ul>` : 
-        accessCode.substring(0,30) + "<a class='ellipsis' href='#'>...</a><span id='" + i + "'class='hide-hours'>" + accessCode.substring(31,accessCode.length) + "</span></li></ul>";
+        hoursString = accessCode.length <= 30 ?  `${accessCode}</span></li></ul>` : 
+        "<p class='mini-hours'>" + accessCode.substring(0,30) + "</p><button class='ellipsis'><span class='button-label'>...</span></button><span id='" + i + "'class='extra-hours hide-hours'>" + accessCode + "</span></li></ul>";
         console.log(hoursString);
 
         $('.js-result-list').append(appendString + hoursString);

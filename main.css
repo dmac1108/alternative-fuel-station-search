@@ -7,7 +7,9 @@ body{
   background-color:#C4DDF5;
 }
 
-
+h1{
+  color: #03417B;
+}
 
 button{
   font-size: 20px;
@@ -29,11 +31,15 @@ ul{
 
 li{
   padding: 5px;
+  display: flex;
+  font-size: 14px;
+  
 }
 
 
 .radio-buttons{
   align-self: center;
+  margin-bottom: 25px;
 }
 
 .radius, .fuel-type, .limit{
@@ -62,6 +68,13 @@ body{
     align-items: flex-start;
     flex: 1 1;
   }
+
+  ul{
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1 1;
+  }
 }
 
 @media screen and (min-width: 1094px){
@@ -71,6 +84,13 @@ body{
     flex-direction: row;
     justify-content: space-evenly;
     align-items: flex-start;
+    flex: 1 1;
+  }
+
+  ul{
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     flex: 1 1;
   }
 
