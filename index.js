@@ -156,11 +156,11 @@ function displayList(responseJson){
         <li>Fuel Type: <div class="box ${fuelClass}"> </div>` + " " + ` ${fuel}</li>
         `;
         
-        //if the hours text is greater than 20 characters, use the first 30 characters with a button to expand if desired
-        hoursString = $(window).width() < 1185 && accessCode.length > 25 ? 
-        "<li> <p class='mini-hours'>Hours: " + " " + accessCode.substring(0,25) + "</p><button class='ellipsis'><span class='button-label'>...</span></button><span id='" + i + "'class='extra-hours hide-hours'>Hours: " + " " + accessCode + "</span></li></ul></div>":
+        //if the hours text is greater than 15 characters, use the first 15 characters with a button to expand if desired
+        hoursString = $(window).width() < 1185 && accessCode.length > 15 ? 
+        "<li> <p class='mini-hours'>Hours: " + " " + accessCode.substring(0,15) + "</p><button class='ellipsis'><span class='button-label'>...</span></button><span id='" + i + "'class='extra-hours hide-hours'>Hours: " + " " + accessCode + "</span></li></ul></div>":
         
-        ` <li>Hours: ${accessCode}</span></li></ul><div>` ; 
+        `<li>Hours: ${accessCode}</span></li></ul><div>` ; 
 
         $('.js-result-list').append(appendString + hoursString);
 
