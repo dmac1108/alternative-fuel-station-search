@@ -45,18 +45,100 @@ function mapsSelector(latitude, longitude) {
     
 }
 
-function displayList(responseJson){
-    $('.js-result-list').empty();
-    
-    console.log("in the displaylist function");
-    console.log(responseJson.fuel_stations);
-    /*$('.js-result-list').scrollTop(300);*/
-    /*let new_position = 600;
-    $('html,body').stop().animate({scrollTop: new_position.top},500);*/
+function getFuelName(fuel){
+  console.log("In the get fuel name function");
+  let fuelName = "";
+  switch (fuel){
+    case "all": 
+    fuelName = "All";
+    break;
+    case "BD":
+      //green
+      fuelName = "Biodiesel (B20 and above)";
+      break;
+    case "CNG":
+      //blue
+      fuelName = "Compressed Natural Gas";
+      break;
+    case "E85":
+      //yellow
+      fuelName = "Ethanol (E85)";
+      break;
+    case "ELEC":
+      //red
+      fuelName = "Electric";
+      break;
+    case "HY":
+      //grey
+      fuelName = "Hydrogen";
+      break;
+    case "LNG":
+      //blue
+      fuelName = "Liquefied Natural Gas";
+      break;
+    case "LPG":
+      //brown
+      fuelName = "Liquefied Petroleum";
+      break;
+  }
+  
+  return fuelName;
+}
 
+function getFuelColor(fuel){
+  console.log("In the get fuel color code function");
+  let fuelClassName = "";
+  switch (fuel){
+    case "all": 
+    break;
+    case "BD":
+      //green
+      fuelClassName = "green";
+      break;
+    case "CNG":
+      //blue
+      fuelClassName = "blue";
+      break;
+    case "E85":
+      //yellow
+      fuelClassName = "yellow";
+      break;
+    case "ELEC":
+      //red
+      fuelClassName = "red";
+      break;
+    case "HY":
+      //grey
+      fuelClassName = "grey";
+      break;
+    case "LNG":
+      //blue
+      fuelClassName = "blue";
+      break;
+    case "LPG":
+      //brown
+      fuelClassName = "brown";
+      break;
+  }
+  
+  return fuelClassName;
+}
+
+function displayList(responseJson){
+  console.log("in the displaylist function");
+    //empty previous results  
+    $('.js-result-list').empty();
+    //hide the search parameters to bring the results in the forefront
+    $('.js-form-input').hide();
+    //console.log(responseJson.fuel_stations);
+
+    //alert the user if there are no stations meeting the search criteria
     if(responseJson.fuel_stations.length === 0){
       alert("There are no nearby stations that match your search criteria. Please try your search again.")
     }
+    //iterate over the fuel_stations array to get information for each stations. Then, create a header, subheading and list
+    //component for relevant station information
+
     for (let i=0; i<responseJson.fuel_stations.length; i++){
         let stationName = responseJson.fuel_stations[i].station_name;
         let distance = responseJson.fuel_stations[i].distance.toFixed(2);
@@ -70,45 +152,20 @@ function displayList(responseJson){
         let stationLatitude = responseJson.fuel_stations[i].latitude;
         let stationLongitude = responseJson.fuel_stations[i].longitude;
         let mapUrl = mapsSelector(stationLatitude,stationLongitude);
+        //update the fual name based on the list value
+        
+        let fuel = getFuelName(responseJson.fuel_stations[i].fuel_type_code);
+        let fuelClass = getFuelColor(responseJson.fuel_stations[i].fuel_type_code);
 
-        let fuel = "";
-        switch (responseJson.fuel_stations[i].fuel_type_code){
-          case "all": 
-          fuel = "All";
-          break;
-          case "BD":
-            fuel = "Biodiesel (B20 and above)";
-            break;
-          case "CNG":
-            fuel = "Compressed Natural Gas";
-            break;
-          case "E85":
-            fuel = "Ethanol (E85)";
-            break;
-          case "ELEC":
-            fuel = "Electric";
-            break;
-          case "HY":
-            fuel = "Hydrogen";
-            break;
-          case "LNG":
-            fuel = "Liquefied Natural Gas";
-            break;
-          case "LPG":
-            fuel = "Liquefied Petroleum";
-            break;
-        }
-
-
-        appendString = `<h2><a href="${mapUrl}" target="_blank"><img src="./assets/map-vector-free-icon-set-34.png" alt="map icon"></a> ${stationName}</h2>
+        appendString = `<div class="${fuelClass}"><h2><a href="${mapUrl}" target="_blank"><img src="./assets/map-vector-free-icon-set-34.png" alt="map icon"></a> ${stationName}</h2>
         <h3><a href="${mapUrl}" target="_blank">${streetAddress} ${city}, ${state} ${postalcode}</a> (${distance} miles)</h3>
         <ul>
-        <li>Fuel Type: ${fuel}</li>
-        <li>Phone: <a href="tel:${phone}">${phone}</a></li>
-        <li>Hours: </br>` ;
+        <li >Fuel Type:  ${fuel}</li>
+        <li>Phone:  <a href="tel:${phone}">${phone}</a></li>`;
         
-        hoursString = accessCode.length <= 30 ?  `${accessCode}</span></li></ul>` : 
-        "<p class='mini-hours'>" + accessCode.substring(0,30) + "</p><button class='ellipsis'><span class='button-label'>...</span></button><span id='" + i + "'class='extra-hours hide-hours'>" + accessCode + "</span></li></ul>";
+        //if the hours text is greater than 30 characters, use the first 30 characters with a button to expand if desired
+        hoursString = accessCode.length <= 30 ?  ` <li>Hours: ${accessCode}</span></li></ul><div>` : 
+        "<li> <p class='mini-hours'>Hours:" + accessCode.substring(0,30) + "</p><button class='ellipsis'><span class='button-label'>...</span></button><span id='" + i + "'class='extra-hours hide-hours'>Hours:" + accessCode + "</span></li></ul></div>";
         console.log(hoursString);
 
         $('.js-result-list').append(appendString + hoursString);
@@ -217,7 +274,6 @@ function getFormType(){
 function initializeApp(){
   $('#radius').val(5);
   $('#limit').val(20);
-  $('.js-location-input').hide();
   $('.js-form-input').hide();
 }
 
