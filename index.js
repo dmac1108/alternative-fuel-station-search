@@ -5,7 +5,7 @@ const APIkey = "BLnD9vbttpdXhyvlXImgyUXASEkcU2bUvSpa89fw";
 
 $('.js-result-list').on('click', '.ellipsis', function(e){
   console.log("ellipsis toggled");
-  console.log($(this));
+  
         $(this).toggleClass("hide-hours");
         $(this).closest($("li")).find("p.mini-hours").toggleClass("hide-hours");
         $(this).closest($("li")).find("span.extra-hours").toggleClass("hide-hours");
@@ -53,31 +53,24 @@ function getFuelName(fuel){
     fuelName = "All";
     break;
     case "BD":
-      //green
       fuelName = "Biodiesel (B20 and above)";
       break;
     case "CNG":
-      //blue
       fuelName = "Compressed Natural Gas";
       break;
     case "E85":
-      //yellow
       fuelName = "Ethanol (E85)";
       break;
     case "ELEC":
-      //red
       fuelName = "Electric";
       break;
     case "HY":
-      //grey
       fuelName = "Hydrogen";
       break;
     case "LNG":
-      //blue
       fuelName = "Liquefied Natural Gas";
       break;
     case "LPG":
-      //brown
       fuelName = "Liquefied Petroleum";
       break;
   }
@@ -163,16 +156,11 @@ function displayList(responseJson){
         <li>Fuel Type: <div class="box ${fuelClass}"> </div>` + " " + ` ${fuel}</li>
         `;
         
-        //if the hours text is greater than 30 characters, use the first 30 characters with a button to expand if desired
-        hoursString = $(window).width() < 1185 && accessCode.length > 30 ? 
-        "<li> <p class='mini-hours'>Hours: " + " " + accessCode.substring(0,30) + "</p><button class='ellipsis'><span class='button-label'>...</span></button><span id='" + i + "'class='extra-hours hide-hours'>Hours: " + " " + accessCode + "</span></li></ul></div>":
+        //if the hours text is greater than 20 characters, use the first 30 characters with a button to expand if desired
+        hoursString = $(window).width() < 1185 && accessCode.length > 25 ? 
+        "<li> <p class='mini-hours'>Hours: " + " " + accessCode.substring(0,25) + "</p><button class='ellipsis'><span class='button-label'>...</span></button><span id='" + i + "'class='extra-hours hide-hours'>Hours: " + " " + accessCode + "</span></li></ul></div>":
         
         ` <li>Hours: ${accessCode}</span></li></ul><div>` ; 
-
-
-
-        
-        console.log(hoursString);
 
         $('.js-result-list').append(appendString + hoursString);
 
