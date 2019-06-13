@@ -22,8 +22,9 @@
 <section id="request-form" class="request-form">
 
 
-<form >
-  <div class="radio-buttons">
+<form role="form">
+  <fieldset>
+  <div role="radiogroup"  class="radio-buttons">
   <div>
     <input type="radio" id="geolocation-search" name="search-type" value="geolocation-search">
     <label for="geolocation-search">Use Current Location</label>
@@ -34,16 +35,16 @@
   </div>
 </div>
 <div class="js-form-input">
-  <div class="js-location-input">
+  <div role="searchbox" class="js-location-input">
     <label for="location">Location</label>
     <input id="location" type="text">
   </div>
   
-    <div class="radius">
+    <div role="searchbox" class="radius">
       <label for="radius">Radius (miles)</label>
       <input id="radius" type="number">
     </div>
-    <div class="fuel-type">
+    <div role="option" class="fuel-type">
       <label for="Fuel Type">Fuel Type</label>
       <select name="Fuel Type">
         <option value="all">Include all fuel types</option>
@@ -56,17 +57,18 @@
         <option value="LPG">Liquefied Petroleum Gas (Propane)</option>
     </select>
     </div>
-  <div class="limit">
+  <div role="searchbox" class="limit">
     <label for="limit">Results to Display</label>
     <input id="limit" type="number">
   </div>
   
   </div>
-  <button type="submit" class="scroll_to">Search</button>
+  <button role="button" type="submit" class="scroll_to">Search</button>
+</fieldset>
 </form>
 </section>
 
-<section id="display-results" class="js-results">
+<section role="list" id="display-results" class="js-results">
   <div class="js-result-list">
 
   </div>

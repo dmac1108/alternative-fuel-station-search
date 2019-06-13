@@ -157,15 +157,21 @@ function displayList(responseJson){
         let fuel = getFuelName(responseJson.fuel_stations[i].fuel_type_code);
         let fuelClass = getFuelColor(responseJson.fuel_stations[i].fuel_type_code);
 
-        appendString = `<div class="${fuelClass}"><h2><a href="${mapUrl}" target="_blank"><img src="./assets/map-vector-free-icon-set-34.png" alt="map icon"></a> ${stationName}</h2>
-        <h3><a href="${mapUrl}" target="_blank">${streetAddress} ${city}, ${state} ${postalcode}</a> (${distance} miles)</h3>
+        appendString = `<div><h2 ><a href="${mapUrl}" target="_blank"><img src="./assets/map-vector-free-icon-set-34.png" alt="map icon"></a> ${stationName}</h2>
+        <h3><a href="${mapUrl}" target="_blank">${streetAddress} ${city}, ${state} ${postalcode}</a> (${distance} miles)</h3><h3><a href="tel:${phone}">${phone}</a></h3>
         <ul>
-        <li >Fuel Type:  ${fuel}</li>
-        <li>Phone:  <a href="tel:${phone}">${phone}</a></li>`;
+        <li>Fuel Type: <div class="box ${fuelClass}"> </div>` + " " + ` ${fuel}</li>
+        `;
         
         //if the hours text is greater than 30 characters, use the first 30 characters with a button to expand if desired
-        hoursString = accessCode.length <= 30 ?  ` <li>Hours: ${accessCode}</span></li></ul><div>` : 
-        "<li> <p class='mini-hours'>Hours:" + accessCode.substring(0,30) + "</p><button class='ellipsis'><span class='button-label'>...</span></button><span id='" + i + "'class='extra-hours hide-hours'>Hours:" + accessCode + "</span></li></ul></div>";
+        hoursString = $(window).width() < 1185 && accessCode.length > 30 ? 
+        "<li> <p class='mini-hours'>Hours: " + " " + accessCode.substring(0,30) + "</p><button class='ellipsis'><span class='button-label'>...</span></button><span id='" + i + "'class='extra-hours hide-hours'>Hours: " + " " + accessCode + "</span></li></ul></div>":
+        
+        ` <li>Hours: ${accessCode}</span></li></ul><div>` ; 
+
+
+
+        
         console.log(hoursString);
 
         $('.js-result-list').append(appendString + hoursString);

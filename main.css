@@ -68,6 +68,10 @@ li{
   
 }
 
+fieldset{
+  border: none;
+}
+
 .radio-buttons{
   align-self: center;
   margin-bottom: 25px;
@@ -81,6 +85,15 @@ li{
   display: none;
 }
 
+.box{
+  width: 10px;
+  height: 10px;
+  border: 1px solid black;
+  margin-left: 10px;
+  margin-right: 5px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
 
 .green{
   background-color: green;
@@ -91,10 +104,12 @@ li{
 }
 
 .blue{
+
   background-color: steelblue;
 }
 
 .brown{
+
   background-color: burlywood;
 }
 
@@ -103,10 +118,11 @@ li{
 }
 
 .red{
-  border: 5px solid red;
-  border-radius: 1%;
+  
+  background-color: red;
+
 }
-@media screen and (max-width: 320px){
+@media screen and (max-width: 1185px){
 
 body{
   font-size: 14px;
@@ -133,7 +149,7 @@ body{
   }
 }
 
-@media screen and (min-width: 1094px){
+@media screen and (min-width: 1185px){
 
   .js-form-input{
     display: flex;
