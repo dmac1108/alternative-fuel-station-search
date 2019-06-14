@@ -150,14 +150,14 @@ function displayList(responseJson){
         let fuel = getFuelName(responseJson.fuel_stations[i].fuel_type_code);
         let fuelClass = getFuelColor(responseJson.fuel_stations[i].fuel_type_code);
 
-        appendString = `<div><h2 ><a href="${mapUrl}" target="_blank"><img src="./assets/map-vector-free-icon-set-34.png" alt="map icon"></a> ${stationName}</h2>
+        appendString = `<div class="station ${fuelClass}-border"><h2 ><a href="${mapUrl}" target="_blank"><img src="./assets/map-vector-free-icon-set-34.png" alt="map icon"></a> ${stationName}</h2>
         <h3><a href="${mapUrl}" target="_blank">${streetAddress} ${city}, ${state} ${postalcode}</a> (${distance} miles)</h3><h3><a href="tel:${phone}">${phone}</a></h3>
         <ul>
         <li>Fuel Type: <div class="box ${fuelClass}"> </div>` + " " + ` ${fuel}</li>
         `;
         
         //if the hours text is greater than 15 characters, use the first 15 characters with a button to expand if desired
-        hoursString = $(window).width() < 1185 && accessCode.length > 15 ? 
+        hoursString = $(window).width() < 650 && accessCode.length > 15 ? 
         "<li> <p class='mini-hours'>Hours: " + " " + accessCode.substring(0,15) + "</p><button class='ellipsis'><span class='button-label'>...</span></button><span id='" + i + "'class='extra-hours hide-hours'>Hours: " + " " + accessCode + "</span></li></ul></div>":
         
         `<li>Hours: ${accessCode}</span></li></ul><div>` ; 
