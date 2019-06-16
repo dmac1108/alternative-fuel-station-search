@@ -119,10 +119,11 @@ function getFuelColor(fuel){
 
 function displayList(responseJson){
   console.log("in the displaylist function");
+    //stop loader animation
+    $('#loader').toggleClass("loader");
     //empty previous results  
     $('.js-result-list').empty();
-    //hide the search parameters to bring the results in the forefront
-    $('.js-form-input').hide();
+   
     //console.log(responseJson.fuel_stations);
 
     //alert the user if there are no stations meeting the search criteria
@@ -150,7 +151,7 @@ function displayList(responseJson){
         let fuel = getFuelName(responseJson.fuel_stations[i].fuel_type_code);
         let fuelClass = getFuelColor(responseJson.fuel_stations[i].fuel_type_code);
 
-        appendString = `<div class="station ${fuelClass}-border"><h2 ><a href="${mapUrl}" target="_blank"><img src="./assets/map-vector-free-icon-set-34.png" alt="map icon"></a> ${stationName}</h2>
+        appendString = `<div class="station"><h2 ><a href="${mapUrl}" target="_blank"><img src="./assets/map-vector-free-icon-set-34.png" alt="map icon"></a> ${stationName}</h2>
         <h3><a href="${mapUrl}" target="_blank">${streetAddress} ${city}, ${state} ${postalcode}</a> (${distance} miles)</h3><h3><a href="tel:${phone}">${phone}</a></h3>
         <ul>
         <li>Fuel Type: <div class="box ${fuelClass}"> </div>` + " " + ` ${fuel}</li>
@@ -201,6 +202,7 @@ function getData(type, searchLocation, radius, limit, fuelType){
     if(type === 'manual-location-search'){
         params.location = `${searchLocation}`;
         fetchRequest(params);
+       
     }
     else{
         geo = navigator.geolocation;
@@ -234,10 +236,14 @@ function getData(type, searchLocation, radius, limit, fuelType){
 function WatchForm(){
     console.log("In the WatchForm function");
     $('form').submit(function(){
+      $('#loader').toggleClass("loader");
+       //hide the search parameters to bring the results in the forefront
+    $('.js-form-input').hide();
         //determine which search type the user chose
         let searchLocation = "";
         let searchType = $("input[type='radio']:checked").val();
         if(searchType != 'geolocation-search'){
+            $('#location').prop('required', true);
             searchLocation = $('#location').val();
         }
         const radius = $('#radius').val();
@@ -255,10 +261,12 @@ function getFormType(){
     if(formType === 'geolocation-search'){
       $('.js-location-input').hide();
       $('.js-form-input').show();
+      $('button').show();
     }
     else{
       $('.js-location-input').show();
       $('.js-form-input').show();
+      $('button').show();
     }
 
   });
@@ -269,6 +277,8 @@ function initializeApp(){
   $('#radius').val(5);
   $('#limit').val(20);
   $('.js-form-input').hide();
+  $('#loader').toggleClass("loader");
+  $('button').hide();
 }
 
 $(function(){

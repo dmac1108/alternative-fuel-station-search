@@ -3,11 +3,23 @@ body{
   font-family: 'Krona One', sans-serif;
   font-size: 20px;
   box-sizing: border-box;
-  background-color:#C4DDF5;
+  background-image: url("./assets/background-green-6466.jpg");
+  color: #02203B;
+  
+}
+
+a:link{
+  color: darkred;
+}
+a:hover{
+  color: orangered;
+}
+a:visited{
+  color: darkslategray;
 }
 
 h1{
-  color: #03417B;
+  text-align: center;
 }
 
 h2{
@@ -29,11 +41,48 @@ h3 {
   font-weight: bold;
 }
 
-button{
+.scroll_to{
+  display: block;
   font-size: 20px;
   padding: 10px;
   color: #FCE505;
-  background-color: #03417B;
+  background-color: #02203B;
+  border-color: darkgreen;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+}
+
+button:focus {
+  outline:0;
+}
+
+.radio-buttons input[type="radio"] {
+  opacity:0.01;
+  z-index:100;
+  
+}
+
+.radio-buttons input[type="radio"]:checked + label,
+.Checked + label {
+  background:#FCE505;
+  color:  #02203B;
+  border: 5px solid #02203B; 
+}
+
+.radio-buttons label {
+   padding:5px;
+   border:2px solid darkgreen; 
+   cursor:pointer;
+   z-index:90;
+   
+   background-color: #02203B;
+   color: #FCE505;
+}
+
+.radio-buttons label:hover {
+  border: 5px solid #FCE505; 
 }
 
 .ellipsis {
@@ -47,11 +96,19 @@ button{
 }
 
 input[type="text"],input[type="number"],select, label{
-  margin: 20px;
+  margin: 5px;
   font-size: 20px;
   
 }
 
+input label{
+  text-shadow: 1px 1px #FCE505;
+}
+
+input[type="text"],input[type="number"]{
+  text-align: center;
+  border: 1px solid #02203B;
+}
 
 ul{
   list-style: none;
@@ -72,12 +129,38 @@ fieldset{
 }
 
 .radio-buttons{
-  align-self: center;
   margin-bottom: 25px;
 }
 
 .radius, .fuel-type, .limit{
   display: block;
+}
+
+.js-form-input{
+  background-color: #FCE505;
+  border: 5px solid #02203B;
+  border-radius: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1;
+}
+
+.loader {
+  border: 16px solid #FCE505; /* yello */
+  border-top: 16px solid darkred; /* dark red */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .hide-hours{
@@ -147,24 +230,53 @@ fieldset{
   border-radius: 1%;
 }
 
-@media screen and (max-width: 1185px){
-
-body{
-  font-size: 14px;
+.station{
+  border: 2px solid darkgreen;
+  background-color:  #FCE505;
 }
 
-  input[type="text"],input[type="number"],select, label{
-    font-size: 18px;
-    margin-left: 5px;
-  }
-
-  .js-form-input{
+@media screen and (max-width: 650px){
+  .radius, .fuel-type, .limit, .js-location-input{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     flex: 1 1;
   }
+}
+
+
+@media screen and (max-width: 1185px){
+
+  body{
+    font-size: 14px;
+  } 
+
+  h1{
+    text-shadow: 1px 1px #FCE505;
+  }
+
+  .radio-buttons input, .radio-buttons label{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .radio-buttons label{
+    font-size: 14px;
+  }
+
+  button{
+    align-items: center;
+  }
+
+  input[type="text"],input[type="number"],select, label{
+    font-size: 18px;
+
+  }
+
+  
 
   ul{
     flex-direction: column;
@@ -180,11 +292,17 @@ body{
 
 @media screen and (min-width: 650px){
 
+  .radio-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  
   .station{
     display: inline-block;
-    height: 250px;
-    width: 90%;
-   
+    height: 200px;
+    width: 90%; 
     margin: 5px;
   }
 
@@ -201,12 +319,8 @@ body{
 
 @media screen and (min-width: 1185px){
 
-  .js-form-input{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: flex-start;
-    flex: 1 1;
+  h1{
+    text-shadow: 1px 1px #FCE505;
   }
 
   ul{
@@ -218,7 +332,7 @@ body{
 
   .station{
     display: inline-block;
-    height: 300px;
+    height: 275px;
     width: 40%;
     margin: 5px;
   }
@@ -228,8 +342,7 @@ body{
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    /*flex: 1 0;*/
-    flex-basis: 250px;
+    flex-basis: 275px;
     flex-wrap: wrap;
   }
   

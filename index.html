@@ -16,8 +16,9 @@
 <body>
 
 <header>
-<h1>Nearby Public Alternative Fuel Stations</h1>
 
+<h1>Nearby Public Alternative Fuel Stations</h1>
+ 
 </header>
 <section id="request-form" class="request-form">
 
@@ -59,7 +60,7 @@
     </div>
   <div role="searchbox" class="limit">
     <label for="limit">Results to Display</label>
-    <input id="limit" type="number">
+    <input id="limit" type="number" min="1" max="500" >
   </div>
   
   </div>
@@ -69,6 +70,7 @@
 </section>
 
 <section role="list" id="display-results" class="js-results">
+  <div id="loader" class="loader"></div>
   <div class="js-result-list">
 
   </div>
